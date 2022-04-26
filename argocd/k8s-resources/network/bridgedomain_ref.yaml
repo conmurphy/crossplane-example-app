@@ -8,7 +8,7 @@ spec:
   forProvider:
     name: "web"
     tenantDnRef: 
-      name: crossplane
+      name: crossplane-argocd
     relationFvRsCtxRef:
       name: prod
     description: "Managed with Crossplane Provider"

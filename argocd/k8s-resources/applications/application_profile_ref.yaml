@@ -10,6 +10,6 @@ spec:
     description: "Managed with Crossplane Provider"
     name: website
     tenantDnRef: 
-      name: crossplane
+      name: crossplane-argocd
   providerConfigRef:
     name: aci

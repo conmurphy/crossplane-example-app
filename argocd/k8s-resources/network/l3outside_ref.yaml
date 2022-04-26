@@ -7,7 +7,7 @@ spec:
     description: "Managed with Crossplane Provider"
     name: crossplane-l3out
     tenantDnRef:
-      name: crossplane
+      name: crossplane-argocd
   providerConfigRef:
     name: aci
 
@@ -171,7 +171,7 @@ metadata:
 spec:
   forProvider:
     tenantDnRef: 
-      name: crossplane
+      name: crossplane-argocd
     name: crossplane-l3out-ospf-interface-policy
     description: "Managed with Crossplane Provider"
     cost: unspecified
@@ -219,7 +219,7 @@ spec:
     scope: context
     targetDscp: VA
     tenantDnRef:
-      name: crossplane
+      name: crossplane-argocd
   providerConfigRef:
     name: aci
 
@@ -248,7 +248,7 @@ spec:
     description: "Managed with Crossplane Provider"
     name: website
     tenantDnRef:
-      name: crossplane
+      name: crossplane-argocd
   providerConfigRef:
     name: aci
 

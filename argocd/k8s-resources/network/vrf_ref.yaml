@@ -8,7 +8,7 @@ spec:
   forProvider:
     name: prod
     tenantDnRef: 
-      name: crossplane
+      name: crossplane-argocd
     description: "Managed with Crossplane Provider"
     annotation: tag_vrf
     bdEnforcedEnable: "no"
