@@ -4,10 +4,10 @@
 apiVersion: applications.aci.jet.crossplane.io/v1alpha1
 kind: Contract
 metadata:
-  name: web-contract-ref
+  name: web-contract
 spec:
   forProvider:
-    name: web-contract-ref
+    name: web-contract
     description: This contract is created by terraform ACI provider
     prio: unspecified
     scope: context
@@ -21,14 +21,33 @@ spec:
 apiVersion: applications.aci.jet.crossplane.io/v1alpha1
 kind: ContractSubject
 metadata:
-  name: web-contract-subject-ref
+  name: web-contract-subject
 spec:
   forProvider:
-    name: web-contract-subject-ref
+    name: web-contract-subject
     contractDnRef: 
-      name: web-contract-ref
+      name: web-contract
     relationVzRsSubjFiltAttRefs:
-      - name: allow-https-ref
-      - name: allow-icmp-ref
+      - name: allow-https
+      - name: allow-icmp
+  providerConfigRef:
+    name: aci
+
+---
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: EpgToContract
+metadata:
+  name: web-contract-consume
+spec:
+  forProvider:
+    applicationEpgDnRef:
+      name: web
+    contractDnRef:
+      name: web-contract
+    annotation: example
+    contractType: consumer
+    matchT: AtleastOne
+    prio: unspecified
   providerConfigRef:
     name: aci
