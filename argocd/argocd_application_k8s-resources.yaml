@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crossplane # name of the Argo CD application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/conmurphy/crossplane-example-app/ # change here with your repository url
+    targetRevision: HEAD
+    path: k8s-resources
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: crossplane # namespace we created
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false

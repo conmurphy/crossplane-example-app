@@ -1,0 +1,23 @@
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+kind: BridgeDomain
+metadata:
+  name: "web"
+spec:
+  forProvider:
+    name: "web"
+    tenantDnRef: 
+      name: crossplane
+    relationFvRsCtxRef:
+      name: prod
+    description: "Managed with Crossplane Provider"
+    annotation: tag_bd
+    arpFlood: "no"
+    bridgeDomainType: regular
+    unicastRoute: "no"
+    unkMacUcastAct: flood
+    v6unkMcastAct: flood
+  providerConfigRef:
+    name: aci
+    
