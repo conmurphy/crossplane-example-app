@@ -205,3 +205,20 @@ spec:
   providerConfigRef:
     name: aci
 
+---
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: EpgToContract
+metadata:
+  name: l3out-contract
+spec:
+  forProvider:
+    applicationEpgDnRef:
+      name: crossplane-l3out-external-epg
+    contractDn: uni/tn-crossplane/brc-web-contract
+    annotation: example
+    contractType: provide
+    matchT: AtleastOne
+    prio: unspecified
+  providerConfigRef:
+    name: aci
