@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: crossplane # name of the Argo CD application
+  name: example-application # name of the Argo CD application
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/conmurphy/crossplane-example-app/ # change here with your repository url
     targetRevision: HEAD
-    path: argocd/k8s-resources
+    path: argocd/k8s-resources/applications
     directory:
       recurse: true
   destination:
@@ -17,4 +17,4 @@ spec:
   syncPolicy:
     automated:
       prune: true
-      selfHeal: false
+      selfHeal: true
