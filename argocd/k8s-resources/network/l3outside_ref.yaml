@@ -19,7 +19,8 @@ metadata:
   name: crossplane-l3out-external-epg
 spec:
   forProvider:
-    relationFvRsProv: [uni/tn-crossplane-argocd/brc-web-contract]
+    relationFvRsProv: 
+      - uni/tn-crossplane-argocd/brc-web-contract
     description: "Managed with Crossplane Provider"
     name: crossplane-l3out-external-epg
     l3OutsideDnRef:
