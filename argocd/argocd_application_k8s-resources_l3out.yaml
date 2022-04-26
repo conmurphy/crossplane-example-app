@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     path: argocd/k8s-resources/network
     directory:
-      recurse: true
+      recurse: false
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd # namespace we created
