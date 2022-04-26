@@ -1,0 +1,66 @@
+
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: Filter
+metadata:
+  name: allow-https
+spec:
+  forProvider:
+    name: allow-https
+    tenantDnRef: 
+      name: crossplane
+  providerConfigRef:
+    name: aci
+
+---
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: FilterEntry
+metadata:
+  name: https
+spec:
+  forProvider:
+    name: https
+    dFromPort: https
+    dToPort: https
+    etherT: ip
+    prot: tcp
+    stateful: "yes"
+    filterDnRef: 
+      name: allow-https
+  providerConfigRef:
+    name: aci
+
+---
+
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: Filter
+metadata:
+  name: allow-icmp
+spec:
+  forProvider:
+    name: allow-icmp
+    tenantDnRef: 
+      name: crossplane
+  providerConfigRef:
+    name: aci
+
+---
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: FilterEntry
+metadata:
+  name: icmp
+spec:
+  forProvider:
+    name: icmp
+    etherT: ip
+    prot: icmp
+    stateful: "yes"
+    filterDnRef: 
+      name: allow-icmp
+  providerConfigRef:
+    name: aci
+

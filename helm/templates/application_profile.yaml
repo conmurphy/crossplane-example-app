@@ -1,0 +1,30 @@
+
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: application.aci.jet.crossplane.io/v1alpha1
+kind: ApplicationProfile
+metadata:
+  name: {{ .Values.applicationProfile.name }}-ref
+spec:
+  forProvider:
+    description: {{ .Values.applicationProfile.description }}
+    name: {{ .Values.applicationProfile.name }}-ref
+    tenantDnRef: 
+      name: {{ .Values.tenant.name }}
+  providerConfigRef:
+    name: aci
+
+---
+### WITHOUT REFERENCES/DEPENDENCIES
+
+apiVersion: application.aci.jet.crossplane.io/v1alpha1
+kind: ApplicationProfile
+metadata:
+  name: {{ .Values.applicationProfile.name }}-no-ref
+spec:
+  forProvider:
+    description: {{ .Values.applicationProfile.description }}
+    name: {{ .Values.applicationProfile.name }}-no-ref
+    tenantDn: {{ .Values.tenant.tenantDn }}
+  providerConfigRef:
+    name: aci

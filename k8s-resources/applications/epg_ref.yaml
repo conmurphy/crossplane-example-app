@@ -1,0 +1,14 @@
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: Epg
+metadata:
+  name: web
+spec:
+  forProvider:
+    description: "Managed with Crossplane Provider"
+    name: web
+    applicationProfileDnRef: 
+        name: website
+  providerConfigRef:
+    name: aci

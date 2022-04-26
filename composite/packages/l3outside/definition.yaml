@@ -1,0 +1,56 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xl3outbasics.aci.jet.crossplane.io
+spec:
+  group: aci.jet.crossplane.io
+  names:
+    kind: xL3OutBasic
+    plural: xl3outbasics
+  claimNames:
+    kind: L3OutBasic
+    plural: l3outbasics
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  tenantName:
+                    type: string
+                  l3OutName:
+                    type: string
+                  l3OutExternalSubnet:
+                    type: string
+                  l3OutIp:
+                    type: string
+                  l3OutPath:
+                    type: string
+                  l3OutVlan:
+                    type: string
+                  l3OutRouterId:
+                    type: string
+                  l3OutNodeDn:
+                    type: string
+                  providerConfigRef:
+                    type: string
+                required:
+                - tenantName
+                - l3OutName
+                - l3OutExternalSubnet
+                - l3OutIp
+                - l3OutPath
+                - l3OutVlan
+                - l3OutRouterId
+                - l3OutNodeDn
+                - providerConfigRef
+            required:
+            - parameters

@@ -1,0 +1,13 @@
+tenant:
+  name: conmurph
+  description: "Created through Crossplane, ArgoCD, and Helm"
+  tenantDn: uni/tn-conmurph
+
+applicationProfile:
+  name: crossplane
+  description: "Created through Crossplane, ArgoCD, and Helm"
+  applicationProfileDn: uni/tn-conmurph/ap-crossplane-no-ref
+
+epg:
+  name: crossplane
+  description: "Created through Crossplane, ArgoCD, and Helm"

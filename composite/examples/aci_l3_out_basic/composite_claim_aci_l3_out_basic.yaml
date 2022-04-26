@@ -1,0 +1,16 @@
+apiVersion: aci.jet.crossplane.io/v1alpha1
+kind: L3OutBasic
+metadata:
+  name: l3-out-basic
+  namespace: default
+spec:
+  parameters:
+    tenantName: crossplane
+    l3OutName: crossplane-l3out
+    l3OutExternalSubnet: 10.0.3.28/27
+    l3OutPath: topology/pod-1/paths-102/pathep-[eth1/33]
+    l3OutIp: 99.99.99.99/24
+    l3OutVlan: vlan-99
+    l3OutRouterId: 99.98.97.96
+    l3OutNodeDn: topology/pod-1/node-102
+    providerConfigRef: aci

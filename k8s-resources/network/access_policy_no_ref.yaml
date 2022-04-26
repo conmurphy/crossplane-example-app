@@ -1,0 +1,38 @@
+### WITHOUT REFERENCES/DEPENDENCIES
+
+apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+kind: VlanPool
+metadata:
+  name: crossplane-vlan-pool
+spec:
+  forProvider:
+    name: crossplane-vlan-pool
+    description: "Managed with Crossplane Provider"
+    allocMode: static
+    annotation: example
+    nameAlias: example
+  providerConfigRef:
+    name: aci
+    
+---
+
+apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+kind: Ranges
+metadata:
+  name: crossplane-vlan-987
+spec:
+  forProvider:
+    description: "Managed with Crossplane Provider"
+    vlanPoolDn: uni/infra/vlanns-[crossplane-vlan-pool]-static
+    allocMode: inherit
+    annotation: example
+    from: vlan-987
+    to: vlan-987
+    nameAlias: example
+    role: external
+   
+  providerConfigRef:
+    name: aci
+
+---
+

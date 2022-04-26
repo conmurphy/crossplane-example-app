@@ -1,0 +1,10 @@
+apiVersion: root.aci.jet.crossplane.io/v1alpha1
+kind: Tenant
+metadata:
+  name: {{ .Values.tenant.name }}
+spec:
+  forProvider:
+    description: {{ .Values.tenant.description }}
+    name: {{ .Values.tenant.name }}
+  providerConfigRef:
+    name: aci

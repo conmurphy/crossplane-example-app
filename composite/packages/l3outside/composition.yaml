@@ -1,0 +1,264 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xl3outbasic
+  labels:
+    provider: provider-jet-aci
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: aci.jet.crossplane.io/v1alpha1
+    kind: XL3OutBasic
+  resources:
+  - name: l3outside
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3Outside
+      metadata:
+        name: crossplane-l3out
+      spec:
+        forProvider:
+          description: "Managed with Crossplane Provider"
+          name: crossplane-l3out
+          tenantDnRef:
+            name: crossplane
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.tenantName
+      toFieldPath: spec.forProvider.tenantDnRef
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutName
+      toFieldPath: spec.forProvider.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3externalnetworkinstanceprofile
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3ExternalNetworkInstanceProfile
+      metadata:
+        name: crossplane-l3out-external-epg
+      spec:
+        forProvider:
+          description: "Managed with Crossplane Provider"
+          name: crossplane-l3out-external-epg
+          l3OutsideDnRef:
+            name: crossplane-l3out
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutName
+      toFieldPath: spec.forProvider.l3OutsideDnRef.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3externalsubnet
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3ExternalSubnet
+      metadata:
+        name: crossplane-l3out-external-subnet
+      spec:
+        forProvider:
+          description: "Managed with Crossplane Provider"
+          externalNetworkInstanceProfileDnRef:
+            name: crossplane-l3out-external-epg
+          aggregate: shared-rtctrl
+          annotation: tag_ext_subnet
+          ip: 10.0.3.28/27
+          scope:
+          - import-rtctrl
+          - export-rtctrl
+          - import-security
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutExternalSubnet
+      toFieldPath: spec.forProvider.ip
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3logicalnodeprofile
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3LogicalNodeProfile
+      metadata:
+        name: crossplane-l3out-logical-node-profile
+      spec:
+        forProvider:
+          name: crossplane-l3out-logical-node-profile
+          description: "Managed with Crossplane Provider"
+          l3OutsideDnRef:
+            name: crossplane-l3out
+          annotation: tag_node
+          nameAlias: alias_node
+          tag: black
+          targetDscp: unspecified
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutName
+      toFieldPath: spec.forProvider.l3OutsideDnRef.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3logicalinterfaceprofile
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3LogicalInterfaceProfile
+      metadata:
+        name: crossplane-l3out-logical-interface-profile
+      spec:
+        forProvider:
+          name: crossplane-l3out-logical-interface-profile
+          description: "Managed with Crossplane Provider"
+          logicalNodeProfileDnRef:
+            name: crossplane-l3out-logical-node-profile
+          annotation: tag_node
+          nameAlias: alias_node
+          tag: black
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutName
+      toFieldPath: spec.forProvider.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3pathattachment
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3PathAttachment
+      metadata:
+        name: crossplane-l3out-path-attachment
+      spec:
+        forProvider:
+          description: "Managed with Crossplane Provider"
+          logicalInterfaceProfileDnRef:
+            name: crossplane-l3out-logical-interface-profile
+          targetDn: "topology/pod-1/paths-102/pathep-[eth1/33]"
+          ifInstT: ext-svi
+          addr: "99.99.99.99/24"
+          encap: vlan-99
+          encapScope: local
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutPath
+      toFieldPath: spec.forProvider.targetDn
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutIp
+      toFieldPath: spec.forProvider.addr
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutVlan
+      toFieldPath: spec.forProvider.encap
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3ospfinterfaceprofile
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3OspfInterfaceProfile
+      metadata:
+        name: crossplane-l3out-ospf-interface-profile
+      spec:
+        forProvider:
+          logicalInterfaceProfileDnRef:
+            name: crossplane-l3out-logical-interface-profile
+          #relationOspfRsIfPol: 
+          description: "Managed with Crossplane Provider"
+          annotation: example
+          authKey: key
+          authKeyId: "255"
+          authType: simple
+          nameAlias: example
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3logicalnodetofabricnode
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3LogicalNodeToFabricNode
+      metadata:
+        name: crossplane-l3out-logical-to-fabric-node-102
+      spec:
+        forProvider:
+          logicalNodeProfileDnRef: 
+            name: crossplane-l3out-logical-node-profile
+          rtrId: 99.98.97.96
+          rtrIdLoopBack: "yes"
+          tdn: topology/pod-1/node-102
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutRouterId
+      toFieldPath: spec.forProvider.rtrId
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutNodeDn
+      toFieldPath: spec.forProvider.tdn
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: ospfinterfacepolicy
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: OspfInterfacePolicy
+      metadata:
+        name: crossplane-l3out-ospf-interface-policy
+      spec:
+        forProvider:
+          tenantDnRef: 
+            name: crossplane
+          name: crossplane-l3out-ospf-interface-policy
+          description: "Managed with Crossplane Provider"
+          cost: unspecified
+          ctrl:
+          - mtu-ignore
+          deadIntvl: "40"
+          helloIntvl: "10"
+          nwT: p2p
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name
+  - name: l3ospfexternalpolicy
+    base:
+      apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+      kind: L3OspfExternalPolicy
+      metadata:
+        name: crossplane-l3out-ospf-external-policy
+      spec:
+        forProvider:
+          l3OutsideDnRef: 
+            name: crossplane-l3out
+          description: "Managed with Crossplane Provider"
+          areaCost: "1"
+          areaCtrl:
+          - redistribute
+          - summary
+          areaId: 0.0.0.1
+          areaType: nssa
+          multipodInternal: "no"
+          nameAlias: example
+        providerConfigRef:
+          name: aci
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.l3OutName
+      toFieldPath: spec.forProvider.l3OutsideDnRef.name
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.providerConfigRef
+      toFieldPath: spec.providerConfigRef.name

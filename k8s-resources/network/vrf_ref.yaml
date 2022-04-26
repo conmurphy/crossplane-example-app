@@ -1,0 +1,22 @@
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: networks.aci.jet.crossplane.io/v1alpha1
+kind: Vrf
+metadata:
+  name: prod
+spec:
+  forProvider:
+    name: prod
+    tenantDnRef: 
+      name: crossplane
+    description: "Managed with Crossplane Provider"
+    annotation: tag_vrf
+    bdEnforcedEnable: "no"
+    ipDataPlaneLearning: enabled
+    knwMcastAct: permit
+    nameAlias: demo_vrf
+    pcEnfDir: egress
+    pcEnfPref: unenforced
+  providerConfigRef:
+    name: aci
+    

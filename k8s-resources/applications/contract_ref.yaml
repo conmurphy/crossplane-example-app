@@ -1,0 +1,34 @@
+
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: Contract
+metadata:
+  name: web-contract-ref
+spec:
+  forProvider:
+    name: web-contract-ref
+    description: This contract is created by terraform ACI provider
+    prio: unspecified
+    scope: context
+    targetDscp: VA
+    tenantDnRef: 
+      name: crossplane
+  providerConfigRef:
+    name: aci
+
+---
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: ContractSubject
+metadata:
+  name: web-contract-subject-ref
+spec:
+  forProvider:
+    name: web-contract-subject-ref
+    contractDnRef: 
+      name: web-contract-ref
+    relationVzRsSubjFiltAttRefs:
+      - name: allow-https-ref
+      - name: allow-icmp-ref
+  providerConfigRef:
+    name: aci

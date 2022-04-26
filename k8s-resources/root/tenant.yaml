@@ -1,0 +1,10 @@
+apiVersion: root.aci.jet.crossplane.io/v1alpha1
+kind: Tenant
+metadata:
+  name: crossplane
+spec:
+  forProvider:
+    description: "Managed with Crossplane Provider with ArgoCD"
+    name: crossplane
+  providerConfigRef:
+    name: aci

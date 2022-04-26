@@ -1,0 +1,29 @@
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: application.aci.jet.crossplane.io/v1alpha1
+kind: Epg
+metadata:
+  name: {{ .Values.epg.name }}-ref
+spec:
+  forProvider:
+    description: {{ .Values.epg.description }}
+    name: {{ .Values.epg.name }}-ref
+    applicationProfileDnRef: 
+        name: {{ .Values.applicationProfile.name }}-ref
+  providerConfigRef:
+    name: aci
+
+---
+
+### WITHOUT REFERENCES/DEPENDENCIES
+apiVersion: application.aci.jet.crossplane.io/v1alpha1
+kind: Epg
+metadata:
+  name: {{ .Values.epg.name }}-no-ref
+spec:
+  forProvider:
+    description: {{ .Values.epg.description }}
+    name: {{ .Values.epg.name }}-no-ref
+    applicationProfileDn: {{ .Values.applicationProfile.applicationProfileDn }}
+  providerConfigRef:
+    name: aci

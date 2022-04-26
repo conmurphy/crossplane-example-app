@@ -1,0 +1,31 @@
+
+## WITHOUT REFERENCES/DEPENDENCIES
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: Contract
+metadata:
+  name: web-contract-no-ref
+spec:
+  forProvider:
+    name: web-contract-no-ref
+    description: This contract is created by terraform ACI provider
+    prio: unspecified
+    scope: context
+    targetDscp: VA
+    tenantDn: uni/tn-crossplane
+  providerConfigRef:
+    name: aci
+
+---
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: ContractSubject
+metadata:
+  name: web-contract-subject-no-ref
+spec:
+  forProvider:
+    name: web-contract-subject-ref
+    contractDn: uni/tn-crossplane/brc-web-contract-no-ref
+    relationVzRsSubjFiltAtt: 
+      - uni/tn-crossplane/flt-allow-https-no-ref
+  providerConfigRef:
+    name: aci

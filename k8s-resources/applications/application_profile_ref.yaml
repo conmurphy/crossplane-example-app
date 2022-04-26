@@ -1,0 +1,15 @@
+
+### WITH REFERENCES/DEPENDENCIES
+
+apiVersion: applications.aci.jet.crossplane.io/v1alpha1
+kind: ApplicationProfile
+metadata:
+  name: website
+spec:
+  forProvider:
+    description: "Managed with Crossplane Provider"
+    name: website
+    tenantDnRef: 
+      name: crossplane
+  providerConfigRef:
+    name: aci
